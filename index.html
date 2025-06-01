@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Salud Pública - Guatemala</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="20" cy="80" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideInUp 1s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+            animation: slideInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            animation: slideInUp 1s ease-out 0.4s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+            position: relative;
+        }
+
+        .section:nth-child(even) {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .section:nth-child(odd) {
+            background: white;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .intro-card {
+            background: rgba(255,255,255,0.9);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .intro-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .intro-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        }
+
+        .intro-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .intro-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .dashboard-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+        }
+
+        .dashboard-container {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 3rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .dashboard-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .powerbi-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border: 3px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .powerbi-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 35px 70px rgba(0,0,0,0.4);
+        }
+
+        .powerbi-container iframe {
+            width: 100%;
+            height: 612px;
+            border: none;
+            display: block;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .insight-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.1) 100%);
+        }
+
+        .insight-card h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        .insight-card p {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .conclusions-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 5rem 0;
+        }
+
+        .conclusion-card {
+            background: rgba(255,255,255,0.9);
+            padding: 3rem;
+            border-radius: 25px;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-left: 5px solid #ff6b6b;
+            transition: all 0.3s ease;
+        }
+
+        .conclusion-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .conclusion-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .recommendations-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 5rem 0;
+        }
+
+        .recommendation-card {
+            background: rgba(255,255,255,0.9);
+            padding: 3rem;
+            border-radius: 25px;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-left: 5px solid #4ecdc4;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .dashboard-container {
+                padding: 2rem;
+            }
+            
+            .powerbi-container iframe {
+                height: 400px;
+            }
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg"></div>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Análisis de Salud Pública</h1>
+            <p class="hero-subtitle">Guatemala: Nacimientos y Defunciones</p>
+            <p class="hero-description">
+                Un análisis exhaustivo de los datos de nacimientos y defunciones en Guatemala, 
+                revelando patrones críticos para el desarrollo de políticas de salud pública más efectivas.
+            </p>
+        </div>
+        <div class="scroll-indicator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2l-10 10 1.41 1.41L12 4.83l8.59 8.58L22 12 12 2z"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Introducción -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Introducción</h2>
+            
+            <div class="intro-grid">
+                <div class="intro-card">
+                    <h3>🏥 Desafíos del Sistema de Salud</h3>
+                    <p>En Guatemala, los nacimientos y defunciones reflejan importantes desafíos en el sistema de salud, especialmente en las comunidades rurales donde el acceso a servicios médicos especializados es limitado.</p>
+                </div>
+                
+                <div class="intro-card">
+                    <h3>👩‍⚕️ Partos Fuera de Instalaciones Médicas</h3>
+                    <p>Muchas mujeres dan a luz en casa, asistidas por comadronas, debido a la falta de acceso a hospitales y centros de salud en áreas remotas. La distancia, el costo del transporte y la desconfianza en el sistema de salud formal contribuyen a esta tendencia.</p>
+                </div>
+                
+                <div class="intro-card">
+                    <h3>📊 Registro y Datos</h3>
+                    <p>La falta de registros precisos en zonas rurales dificulta la planificación de políticas de salud. Muchas muertes no se reportan adecuadamente, afectando la capacidad del gobierno para responder a problemas de salud pública.</p>
+                </div>
+                
+                <div class="intro-card">
+                    <h3>🌍 Factores Culturales y Económicos</h3>
+                    <p>En algunas comunidades, el parto en casa es una práctica tradicional mantenida por razones culturales y económicas. Las comadronas desempeñan un papel fundamental, pero a menudo carecen de recursos y capacitación médica avanzada.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Power BI -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="dashboard-container">
+                <h2 class="dashboard-title">Dashboards Interactivos</h2>
+                <p class="dashboard-description">
+                    Explora los datos detallados a través de nuestros tableros interactivos de Power BI
+                </p>
+                
+                <div class="powerbi-container">
+                    <iframe 
+                        title="PROYECTO BASE DE DATOS POWER BI" 
+                        src="https://app.powerbi.com/view?r=eyJrIjoiMDZjNTk2YzAtOWU0MC00ZjZhLWJkNDYtZDAzYTIwODU0MTQ2IiwidCI6IjVmNTNiNGNlLTYzZDQtNGVlOC04OGQyLTIyZjBiMmQ0YjI3YSIsImMiOjR9" 
+                        allowFullScreen="true">
+                    </iframe>
+                </div>
+
+                <div class="insights-grid">
+                    <div class="insight-card">
+                        <h3>📈 Dashboard 1: Nacimientos por Año</h3>
+                        <p>Análisis detallado de nacimientos por tipo de atención recibida y lugar de atención, mostrando patrones desde 2020 hasta 2025.</p>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3>⚖️ Dashboard 2: Nacimientos vs Defunciones</h3>
+                        <p>Comparativa temporal que revela tendencias demográficas y el impacto de factores externos como COVID-19.</p>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3>💔 Dashboard 3: Principales Causas de Muerte</h3>
+                        <p>Top 10 de causas de defunción y análisis de grupos etarios más afectados, priorizando adultos mayores.</p>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3>🗺️ Dashboard 4: Nacimientos por Departamento</h3>
+                        <p>Distribución geográfica de nacimientos, revelando disparidades regionales en acceso y registro.</p>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <h3>☠️ Dashboard 5: Defunciones por Departamento</h3>
+                        <p>Análisis geográfico y temporal de defunciones, identificando patrones regionales y variaciones anuales.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estadísticas Clave -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Datos Destacados 2020</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">368,016</div>
+                    <div class="stat-label">Nacimientos Totales</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">238,361</div>
+                    <div class="stat-label">Atención Médica</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">100,363</div>
+                    <div class="stat-label">Atendidos por Comadronas</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">105,579</div>
+                    <div class="stat-label">Partos en Domicilio</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">148,486</div>
+                    <div class="stat-label">Hospital Público</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusiones -->
+    <section class="conclusions-section">
+        <div class="container">
+            <h2 class="section-title">Conclusiones Principales</h2>
+            
+            <div class="conclusion-card">
+                <h3>🔍 Perspectiva Tecnológica y Humana</h3>
+                <p>Como estudiantes de Ingeniería en Sistemas, desarrollamos la capacidad de reconocer patrones y tendencias. Sin embargo, es fundamental recordar que detrás de cada descenso en nacimientos o aumento en defunciones, existen personas que afrontan situaciones reales: precariedad financiera, temor al futuro y acceso limitado a servicios básicos.</p>
+            </div>
+            
+            <div class="conclusion-card">
+                <h3>📊 Más Allá de los Datos</h3>
+                <p>Por muy eficiente que sea una base de datos, no puede mostrar el sufrimiento de una pérdida o la dificultad de decidir si tener un hijo. Al analizar el impacto del COVID-19 en las cifras de 2021 y la marcada caída en nacimientos para 2024, entendemos que el progreso tecnológico debe ir unido a políticas humanitarias y salud accesible.</p>
+            </div>
+            
+            <div class="conclusion-card">
+                <h3>🏥 Acceso y Calidad de Atención</h3>
+                <p>Aunque la mayoría de nacimientos son atendidos por doctores, una parte importante de las mujeres guatemaltecas aún acude a comadronas o da a luz sin ayuda médica. Esto evidencia tanto la carencia de acceso a servicios sanitarios como la resiliencia de las comunidades.</p>
+            </div>
+            
+            <div class="conclusion-card">
+                <h3>🌍 Impacto Geográfico</h3>
+                <p>La geografía sigue siendo un factor determinante en las diferencias de acceso y reporte de nacimientos. Zonas como Guatemala y Alta Verapaz tienen mayor registro, mientras que otros departamentos enfrentan problemas de conectividad y acceso a servicios.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recomendaciones -->
+    <section class="recommendations-section">
+        <div class="container">
+            <h2 class="section-title">Recomendaciones Tecnológicas</h2>
+            
+            <div class="recommendation-card">
+                <h3>🌐 Red de Seguimiento Digital</h3>
+                <p>Crear una red de seguimiento digital para nacimientos a nivel nacional, conectando centros de salud, hospitales y registros locales. Una base de datos unificada con registros obligatorios que detallen tipo de atención, lugar y profesional a cargo, identificando zonas de mayor riesgo.</p>
+            </div>
+            
+            <div class="recommendation-card">
+                <h3>📱 Aplicaciones de Salud Materna</h3>
+                <p>Desarrollar aplicaciones móviles para control del embarazo, alertas rápidas sobre riesgos de salud y mapas interactivos con ubicación de hospitales. Herramientas que funcionen sin conexión y sincronicen cuando detecten internet.</p>
+            </div>
+            
+            <div class="recommendation-card">
+                <h3>🚨 Sistemas de Alerta Temprana</h3>
+                <p>Implementar sistemas que alerten a familiares ante situaciones críticas, especialmente para adultos mayores. Desde apps que recuerden medicamentos hasta mecanismos de monitoreo de signos vitales.</p>
+            </div>
+            
+            <div class="recommendation-card">
+                <h3>📈 Análisis Predictivo</h3>
+                <p>Utilizar datos específicos por departamento y año para prever focos de contagio, necesidades hospitalarias o zonas vulnerables. Facilitar respuesta ágil ante nuevas pandemias o emergencias sanitarias.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Análisis de Salud Pública Guatemala. Proyecto de Ingeniería en Sistemas.</p>
+            <p>Datos basados en registros del Instituto Nacional de Estadística de Guatemala</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.intro-card, .insight-card, .conclusion-card, .recommendation-card, .stat-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
